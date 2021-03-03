@@ -1,4 +1,4 @@
-package com.example.convidados.ui.absent;
+package com.example.convidados.view;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,23 +13,19 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.convidados.R;
+import com.example.convidados.viewmodel.AbsentViewModel;
 
 public class AbsentFragment extends Fragment {
 
     private AbsentViewModel absentViewModel;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        absentViewModel =
-                new ViewModelProvider(this).get(AbsentViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        this.absentViewModel = new ViewModelProvider(this).get(AbsentViewModel.class);
         View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
+
         final TextView textView = root.findViewById(R.id.text_slideshow);
-        absentViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+
         return root;
     }
 }
