@@ -29,6 +29,7 @@
 
         <RadioButton
             android:id="@+id/radio_not_confirmed"
+            android:checked="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Não Confirmado"/>
@@ -47,7 +48,7 @@
     </RadioGroup>
 
     <Button
-        android:id="@+id/button_salvar"
+        android:id="@+id/button_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Salvar"
