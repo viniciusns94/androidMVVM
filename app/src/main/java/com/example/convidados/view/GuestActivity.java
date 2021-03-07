@@ -56,7 +56,6 @@ public class GuestActivity extends AppCompatActivity implements View.OnClickList
         else if (this.mViewHolder.radioAbsent.isChecked()) {
             confirmation = GuestConstants.CONFIRMATION.ABSENT;
         }
-
         GuestModel guest = new GuestModel(name, confirmation);
         this.mViewModel.save(guest);
     }
