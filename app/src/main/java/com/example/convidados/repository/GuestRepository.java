@@ -1,7 +1,10 @@
 package com.example.convidados.repository;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 
+import com.example.convidados.constants.DataBaseConstants;
 import com.example.convidados.model.GuestModel;
 
 import java.util.ArrayList;
@@ -27,8 +30,19 @@ public class GuestRepository {
         return new ArrayList<>();
     }
 
-    public void insert(GuestModel guest) {
+    public boolean insert(GuestModel guest) {
+        try {
+            SQLiteDatabase db = this.mHelper.getWritableDatabase();
 
+            ContentValues values = new ContentValues();
+            values.put(DataBaseConstants.GUEST.COLUMNS.NAME, guest.getName());
+            values.put(DataBaseConstants.GUEST.COLUMNS.PRESENCE, guest.getConfirmation());
+
+            db.insert(DataBaseConstants.GUEST.TABLE_NAME, null, values);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
     }
 
     public void update(GuestModel guest) {

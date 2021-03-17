@@ -16,13 +16,13 @@ public class GuestDataBaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_GUEST = "CREATE TABLE " + DataBaseConstants.GUEST.TABLE_NAME + " ( "
             + DataBaseConstants.GUEST.COLUMNS.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + DataBaseConstants.GUEST.COLUMNS.NAME + " TEXT, "
-            + DataBaseConstants.GUEST.COLUMNS.PRESENCE + " INTEGER);";
+            + DataBaseConstants.GUEST.COLUMNS.PRESENCE + " INTEGER)";
 
     public GuestDataBaseHelper(@Nullable Context context) {
         super(context, NAME, null, VERSION);
     }
 
-    @Override
+    @Override 
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_GUEST);
     }
