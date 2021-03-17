@@ -39,13 +39,30 @@ public class GuestRepository {
             values.put(DataBaseConstants.GUEST.COLUMNS.PRESENCE, guest.getConfirmation());
 
             db.insert(DataBaseConstants.GUEST.TABLE_NAME, null, values);
+            db.close();
             return true;
-        } catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
 
-    public void update(GuestModel guest) {
+    public boolean update(GuestModel guest) {
+        try {
+            SQLiteDatabase db = this.mHelper.getWritableDatabase();
+
+            ContentValues values = new ContentValues();
+            values.put(DataBaseConstants.GUEST.COLUMNS.NAME, guest.getName());
+            values.put(DataBaseConstants.GUEST.COLUMNS.PRESENCE, guest.getConfirmation());
+
+            String where = DataBaseConstants.GUEST.COLUMNS.ID + " = ?";
+            String[] args = {String.valueOf(guest.getId())};
+
+            db.update(DataBaseConstants.GUEST.TABLE_NAME, values, where, args);
+            db.close();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
 
     }
 
