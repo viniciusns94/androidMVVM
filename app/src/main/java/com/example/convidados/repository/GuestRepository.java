@@ -2,6 +2,7 @@ package com.example.convidados.repository;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.convidados.constants.DataBaseConstants;
@@ -28,6 +29,33 @@ public class GuestRepository {
 
     public List<GuestModel> getList() {
         return new ArrayList<>();
+    }
+
+    public GuestModel load(int id) {
+        try {
+            GuestModel guest = null;
+            SQLiteDatabase db = this.mHelper.getReadableDatabase();
+
+            String table = DataBaseConstants.GUEST.TABLE_NAME;
+            String[] columns = {DataBaseConstants.GUEST.COLUMNS.ID, DataBaseConstants.GUEST.COLUMNS.NAME, DataBaseConstants.GUEST.COLUMNS.PRESENCE};
+            String selection = DataBaseConstants.GUEST.COLUMNS.ID + " = ?";
+            String[] selectionArgs = {String.valueOf(id)};
+
+            Cursor cursor = db.query(table, columns, selection, selectionArgs, null, null, null);
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                String name = cursor.getString(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.NAME));
+                int presence = cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.PRESENCE));
+
+                guest = new GuestModel(id, name, presence);
+            }
+            if (cursor != null) {
+                cursor.close();
+            }
+            return guest;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public boolean insert(GuestModel guest) {
@@ -75,7 +103,7 @@ public class GuestRepository {
             db.delete(DataBaseConstants.GUEST.TABLE_NAME, where, args);
             db.close();
             return true;
-        } catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
