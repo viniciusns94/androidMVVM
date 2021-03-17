@@ -63,10 +63,20 @@ public class GuestRepository {
         } catch (Exception e) {
             return false;
         }
-
     }
 
-    public void delete(GuestModel guest) {
+    public boolean delete(int id) {
+        try {
+            SQLiteDatabase db = this.mHelper.getWritableDatabase();
 
+            String where = DataBaseConstants.GUEST.COLUMNS.ID + " = ?";
+            String[] args = {String.valueOf(id)};
+
+            db.delete(DataBaseConstants.GUEST.TABLE_NAME, where, args);
+            db.close();
+            return true;
+        } catch (Exception e){
+            return false;
+        }
     }
 }
