@@ -45,6 +45,12 @@ public class AllGuestsFragment extends Fragment {
         RecyclerView recyclerGuests;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.mViewModel.getList();
+    }
+
     private void observers(){
         this.mViewModel.guestList.observe(getViewLifecycleOwner(), new Observer<List<GuestModel>>() {
             @Override
