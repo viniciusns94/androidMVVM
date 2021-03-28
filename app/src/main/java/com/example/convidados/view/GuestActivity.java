@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.convidados.R;
 import com.example.convidados.constants.GuestConstants;
+import com.example.convidados.model.FeedBack;
 import com.example.convidados.model.GuestModel;
 import com.example.convidados.viewmodel.GuestViewModel;
 
@@ -68,17 +69,11 @@ public class GuestActivity extends AppCompatActivity implements View.OnClickList
                 mViewHolder.radioAbsent.setChecked(conf == GuestConstants.CONFIRMATION.ABSENT);
             }
         });
-        this.mViewModel.feedBack.observe(this, new Observer<Boolean>() {
+        this.mViewModel.feedBack.observe(this, new Observer<FeedBack>() {
             @Override
-            public void onChanged(Boolean aBoolean) {
-                if (aBoolean) {
-                    String msg = "";
-                    if (mGuestId == 0)
-                        msg = "Convidado inserido com sucesso";
-                    else
-                        msg = "Convidado atualizado com sucesso";
-
-                    Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+            public void onChanged(FeedBack feedBack) {
+                Toast.makeText(getApplicationContext(), feedBack.getMessage(), Toast.LENGTH_SHORT).show();
+                if (feedBack.ismSuccess()) {
                     finish();
                 }
             }
