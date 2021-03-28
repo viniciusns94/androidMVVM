@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.convidados.R;
 import com.example.convidados.constants.GuestConstants;
+import com.example.convidados.model.FeedBack;
 import com.example.convidados.model.GuestModel;
 import com.example.convidados.view.adapter.GuestAdapter;
 import com.example.convidados.view.listener.OnListClick;
@@ -49,6 +51,12 @@ public class AllGuestsFragment extends Fragment {
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
+
+            @Override
+            public void onDelete(int id) {
+                mViewModel.delete(id);
+                mViewModel.getList();
+            }
         };
         this.mAdapter.attachListener(listener);
         this.observers();
@@ -71,6 +79,12 @@ public class AllGuestsFragment extends Fragment {
             @Override
             public void onChanged(List<GuestModel> list) {
                 mAdapter.attachList(list);
+            }
+        });
+        this.mViewModel.feedBack.observe(getViewLifecycleOwner(), new Observer<FeedBack>() {
+            @Override
+            public void onChanged(FeedBack feedBack) {
+                Toast.makeText(getContext(), feedBack.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
