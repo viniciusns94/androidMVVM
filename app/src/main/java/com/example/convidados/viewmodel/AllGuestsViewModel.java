@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.convidados.constants.GuestConstants;
 import com.example.convidados.model.FeedBack;
@@ -17,17 +16,17 @@ import java.util.List;
 
 public class AllGuestsViewModel extends AndroidViewModel {
 
-    private GuestRepository mRepository;
+    private final GuestRepository mRepository;
 
-    private MutableLiveData<List<GuestModel>> mGuestList = new MutableLiveData<>();
+    private final MutableLiveData<List<GuestModel>> mGuestList = new MutableLiveData<>();
     public LiveData<List<GuestModel>> guestList = this.mGuestList;
 
-    private MutableLiveData<FeedBack> mFeedBack = new MutableLiveData<>();
+    private final MutableLiveData<FeedBack> mFeedBack = new MutableLiveData<>();
     public LiveData<FeedBack> feedBack = this.mFeedBack;
 
     public AllGuestsViewModel(@NonNull Application application) {
         super(application);
-        this.mRepository = GuestRepository.getInstance(application.getApplicationContext());
+        this.mRepository = new GuestRepository(application.getApplicationContext());
     }
 
     public void getList(int filter) {

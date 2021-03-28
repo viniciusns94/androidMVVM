@@ -15,9 +15,12 @@ import com.example.convidados.model.GuestModel;
 public abstract class GuestDataBase extends RoomDatabase {
 
     public static GuestDataBase INSTANTECE;
+
+    public abstract GuestDAO guestDAO();
+
     public static GuestDataBase getDataBase(Context context) {
 
-        if (INSTANTECE != null)
+        if (INSTANTECE == null)
             INSTANTECE = Room.databaseBuilder(context, GuestDataBase.class, "convidados")
                     .allowMainThreadQueries()
                     .addCallback(new Callback() {
@@ -32,7 +35,7 @@ public abstract class GuestDataBase extends RoomDatabase {
         return INSTANTECE;
     }
 
-    private static Migration MIGRATION_1_2 = new Migration(1, 2) {
+    private static final Migration MIGRATION_1_2 = new Migration(1, 2) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
 

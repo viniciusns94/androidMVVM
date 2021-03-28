@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.convidados.model.FeedBack;
 import com.example.convidados.model.GuestModel;
@@ -15,15 +14,15 @@ import com.example.convidados.repository.GuestRepository;
 public class GuestViewModel extends AndroidViewModel {
 
     private final GuestRepository mRepository;
-    private MutableLiveData<GuestModel> mGuest = new MutableLiveData<>();
+    private final MutableLiveData<GuestModel> mGuest = new MutableLiveData<>();
     public LiveData<GuestModel> guest = this.mGuest;
 
-    private MutableLiveData<FeedBack> mFeedBack = new MutableLiveData<>();
+    private final MutableLiveData<FeedBack> mFeedBack = new MutableLiveData<>();
     public LiveData<FeedBack> feedBack = this.mFeedBack;
 
     public GuestViewModel(@NonNull Application application) {
         super(application);
-        this.mRepository = GuestRepository.getInstance(application.getApplicationContext());
+        this.mRepository = new GuestRepository(application.getApplicationContext());
     }
 
     public void save(GuestModel guest) {
