@@ -45,9 +45,7 @@ public class GuestRepository {
 
                     list.add(new GuestModel(id, name, presence));
                 }
-                if (cursor != null) {
-                    cursor.close();
-                }
+                cursor.close();
             }
             return list;
         } catch (Exception e) {
@@ -55,18 +53,18 @@ public class GuestRepository {
         }
     }
 
-    public List<GuestModel> getAll(){
+    public List<GuestModel> getAll() {
         return this.getList(null, null);
     }
 
-    public List<GuestModel> getPresents(){
+    public List<GuestModel> getPresents() {
         String selection = DataBaseConstants.GUEST.COLUMNS.PRESENCE + " = ?";
         String[] selectionArgs = {String.valueOf(GuestConstants.CONFIRMATION.PRESENT)};
 
         return this.getList(selection, selectionArgs);
     }
 
-    public List<GuestModel> getAbsents(){
+    public List<GuestModel> getAbsents() {
         String selection = DataBaseConstants.GUEST.COLUMNS.PRESENCE + " = ?";
         String[] selectionArgs = {String.valueOf(GuestConstants.CONFIRMATION.ABSENT)};
 
