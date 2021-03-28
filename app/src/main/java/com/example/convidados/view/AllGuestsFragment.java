@@ -1,5 +1,6 @@
 package com.example.convidados.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.convidados.R;
+import com.example.convidados.constants.GuestConstants;
 import com.example.convidados.model.GuestModel;
 import com.example.convidados.view.adapter.GuestAdapter;
+import com.example.convidados.view.listener.OnListClick;
 import com.example.convidados.viewmodel.AllGuestsViewModel;
 
 import java.util.List;
@@ -36,6 +39,18 @@ public class AllGuestsFragment extends Fragment {
         this.mViewHolder.recyclerGuests.setLayoutManager(new LinearLayoutManager(getContext()));
         this.mViewHolder.recyclerGuests.setAdapter(mAdapter);
 
+        OnListClick listener = new OnListClick() {
+            @Override
+            public void onClick(int id) {
+                Bundle bundle = new Bundle();
+                bundle.putInt(GuestConstants.GUEST_ID, id);
+
+                Intent intent = new Intent(getContext(), GuestActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        };
+        this.mAdapter.attachListener(listener);
         this.observers();
 
         return root;

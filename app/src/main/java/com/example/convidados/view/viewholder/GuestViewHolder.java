@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.convidados.R;
 import com.example.convidados.model.GuestModel;
+import com.example.convidados.view.listener.OnListClick;
 
 public class GuestViewHolder extends RecyclerView.ViewHolder {
 
@@ -19,7 +20,13 @@ public class GuestViewHolder extends RecyclerView.ViewHolder {
         this.mTextName = itemView.findViewById(R.id.text_name);
     }
 
-    public void bind(GuestModel guest) {
+    public void bind(GuestModel guest, OnListClick listener) {
         this.mTextName.setText(guest.getName());
+        this.mTextName.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                listener.onClick(guest.getId());
+            }
+        });
     }
 }
