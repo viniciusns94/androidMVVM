@@ -31,6 +31,7 @@ public class AllGuestsFragment extends Fragment {
     private AllGuestsViewModel mViewModel;
     private ViewHolder mViewHolder = new ViewHolder();
     private GuestAdapter mAdapter = new GuestAdapter();
+    private int mFilter = 0;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -55,12 +56,16 @@ public class AllGuestsFragment extends Fragment {
             @Override
             public void onDelete(int id) {
                 mViewModel.delete(id);
-                mViewModel.getList();
+                mViewModel.getList(mFilter);
             }
         };
         this.mAdapter.attachListener(listener);
-        this.observers();
 
+        if (getArguments() != null) {
+            this.mFilter = getArguments().getInt(GuestConstants.FILTER);
+        }
+
+        this.observers();
         return root;
     }
 
@@ -71,10 +76,10 @@ public class AllGuestsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        this.mViewModel.getList();
+        this.mViewModel.getList(this.mFilter);
     }
 
-    private void observers(){
+    private void observers() {
         this.mViewModel.guestList.observe(getViewLifecycleOwner(), new Observer<List<GuestModel>>() {
             @Override
             public void onChanged(List<GuestModel> list) {

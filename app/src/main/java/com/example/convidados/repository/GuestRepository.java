@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.convidados.constants.DataBaseConstants;
+import com.example.convidados.constants.GuestConstants;
 import com.example.convidados.model.GuestModel;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.List;
 public class GuestRepository {
 
     private static GuestRepository INSTANCE;
-    private GuestDataBaseHelper mHelper;
+    private final GuestDataBaseHelper mHelper;
 
     private GuestRepository(Context context) {
         this.mHelper = new GuestDataBaseHelper(context);
@@ -27,7 +28,7 @@ public class GuestRepository {
         return INSTANCE;
     }
 
-    public List<GuestModel> getList() {
+    private List<GuestModel> getList(String selection, String[] selectionArgs) {
         List<GuestModel> list = new ArrayList<>();
         try {
             SQLiteDatabase db = this.mHelper.getReadableDatabase();
@@ -35,7 +36,7 @@ public class GuestRepository {
             String table = DataBaseConstants.GUEST.TABLE_NAME;
             String[] columns = {DataBaseConstants.GUEST.COLUMNS.ID, DataBaseConstants.GUEST.COLUMNS.NAME, DataBaseConstants.GUEST.COLUMNS.PRESENCE};
 
-            Cursor cursor = db.query(table, columns, null, null, null, null, null);
+            Cursor cursor = db.query(table, columns, selection, selectionArgs, null, null, null);
             if (cursor != null && cursor.getCount() > 0) {
                 while (cursor.moveToNext()) {
                     int id = cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.ID));
@@ -52,6 +53,24 @@ public class GuestRepository {
         } catch (Exception e) {
             return list;
         }
+    }
+
+    public List<GuestModel> getAll(){
+        return this.getList(null, null);
+    }
+
+    public List<GuestModel> getPresents(){
+        String selection = DataBaseConstants.GUEST.COLUMNS.PRESENCE + " = ?";
+        String[] selectionArgs = {String.valueOf(GuestConstants.CONFIRMATION.PRESENT)};
+
+        return this.getList(selection, selectionArgs);
+    }
+
+    public List<GuestModel> getAbsents(){
+        String selection = DataBaseConstants.GUEST.COLUMNS.PRESENCE + " = ?";
+        String[] selectionArgs = {String.valueOf(GuestConstants.CONFIRMATION.ABSENT)};
+
+        return this.getList(selection, selectionArgs);
     }
 
     public GuestModel load(int id) {

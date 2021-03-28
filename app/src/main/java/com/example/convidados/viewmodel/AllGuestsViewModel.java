@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.convidados.constants.GuestConstants;
 import com.example.convidados.model.FeedBack;
 import com.example.convidados.model.GuestModel;
 import com.example.convidados.repository.GuestRepository;
@@ -29,8 +30,13 @@ public class AllGuestsViewModel extends AndroidViewModel {
         this.mRepository = GuestRepository.getInstance(application.getApplicationContext());
     }
 
-    public void getList() {
-        this.mGuestList.setValue(this.mRepository.getList());
+    public void getList(int filter) {
+        if (filter == GuestConstants.CONFIRMATION.NOT_CONFIRMED)
+            this.mGuestList.setValue(this.mRepository.getAll());
+        else if (filter == GuestConstants.CONFIRMATION.PRESENT)
+            this.mGuestList.setValue(this.mRepository.getPresents());
+        else if (filter == GuestConstants.CONFIRMATION.ABSENT)
+            this.mGuestList.setValue(this.mRepository.getAbsents());
     }
 
     public void delete(int id) {
